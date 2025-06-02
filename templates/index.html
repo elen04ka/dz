@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Генератор домашок</title>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 1rem;
+        background-color: #f9fafb;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        color: #333;
+        box-sizing: border-box;
+    }
+
+    /* Шапка */
+    header {
+        display: flex;
+        align-items: center;
+        padding: 1rem 2rem;
+        background: linear-gradient(90deg, #4CAF50 0%, #2E7D32 100%);
+        color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(46,125,50,0.3);
+        margin-bottom: 2rem;
+    }
+
+    header img {
+        height: 50px;
+        margin-right: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        background: white;
+        padding: 5px;
+        flex-shrink: 0;
+    }
+
+    header h1 {
+        font-weight: 700;
+        font-size: 1.8rem;
+        letter-spacing: 1.1px;
+        margin: 0;
+        user-select: none;
+    }
+
+    /* Підвал */
+    footer {
+        margin-top: auto;
+        background-color: #f0f0f0;
+        padding: 1rem 1.5rem;
+        text-align: center;
+        font-size: 0.85rem;
+        color: #666;
+        border-radius: 8px;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        user-select: none;
+    }
+
+    footer a {
+        color: #4CAF50;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s ease;
+    }
+
+    footer a:hover,
+    footer a:focus {
+        color: #2E7D32;
+        text-decoration: underline;
+    }
+
+    textarea, select, input {
+        width: 100%;
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+    }
+
+    textarea:focus, select:focus, input:focus {
+        border-color: #4CAF50;
+        outline: none;
+        box-shadow: 0 0 6px #81C784;
+    }
+
+    button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 0.7rem 1.5rem;
+        cursor: pointer;
+        border-radius: 5px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover,
+    button:focus {
+        background-color: #388E3C;
+        outline: none;
+    }
+
+    .message-box {
+        background-color: white;
+        padding: 1rem;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        white-space: pre-wrap;
+        margin-top: 1rem;
+        box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+    /* --- Адаптивність --- */
+    @media (max-width: 600px) {
+        body {
+            margin: 1rem;
+            padding: 0.5rem;
+        }
+
+        header {
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        header img {
+            margin: 0 0 0.5rem 0;
+            height: 40px;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            letter-spacing: normal;
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+        }
+
+        footer {
+            font-size: 0.75rem;
+            padding: 0.75rem 1rem;
+        }
+    }
+</style>
+</head>
+<body>
+<header>
+    <img src="/static/logo.png" alt="Логотип" />
+    <h1>Генератор домашок</h1>
+</header>
+
+<form method="POST">
+    <label for="greeting">Привітання:</label>
+    <select name="greeting" id="greeting">
+        <option>Добрий ранок, шановні батьки!</option>
+        <option>Добрий день, шановні батьки!</option>
+        <option>Добрий вечір, шановні батьки!</option>
+    </select>
+
+    <label for="absents">Відсутні учні:</label>
+    <textarea name="absents" id="absents" rows="2" placeholder="Наприклад: Петренко Іван, Коваленко Марина..."></textarea>
+
+    <label for="course">Курс:</label>
+    <select name="course" id="course" required onchange="updateLessons()">
+        <option disabled selected>Оберіть курс</option>
+        {% for course_name in lessons.keys() %}
+            <option value="{{ course_name }}">{{ course_name }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="lesson">Урок:</label>
+    <select name="lesson" id="lesson" required>
+        <option disabled selected>Спочатку оберіть курс</option>
+    </select>
+
+    <label for="topic">Тема уроку:</label>
+    <input type="text" name="topic" id="topic" readonly>
+
+    <label for="goal">Мета уроку:</label>
+    <input type="text" name="goal" id="goal" readonly>
+
+    <label for="custom_text">Додатковий опис уроку (необов’язково):</label>
+    <textarea name="custom_text" id="custom_text" rows="3" placeholder="Що ще відбувалося на занятті..."></textarea>
+
+    <label for="homework">Домашнє завдання:</label>
+    <textarea name="homework" id="homework" rows="4" placeholder="1. Виконати завдання 1 модуля 1..."></textarea>
+
+    <button type="submit">Згенерувати повідомлення</button>
+</form>
+
+{% if message %}
+    <h2>Результат:</h2>
+    <div class="message-box" id="result-box">{{ message }}</div>
+    <button onclick="copyToClipboard()">📋 Скопіювати</button>
+{% endif %}
+
+<!-- JSON lesson data for JS -->
+<div id="lesson-data" data-json='{{ lessons | tojson | safe }}'></div>
+
+<footer>
+    Створено Корень Оленою. Якщо побачив помилки або хочеш запропонувати покращення, пиши <a href="https://t.me/o_len04ka" target="_blank" rel="noopener noreferrer">@o_len04ka</a>
+</footer>
+
+<script>
+    const jsonElement = document.getElementById("lesson-data");
+    const lessonsData = JSON.parse(jsonElement.dataset.json);
+
+    const courseSelect = document.getElementById('course');
+    const lessonSelect = document.getElementById('lesson');
+    const topicInput = document.getElementById('topic');
+    const goalInput = document.getElementById('goal');
+
+    function updateLessons() {
+        const course = courseSelect.value;
+        const lessons = lessonsData[course] || [];
+        lessonSelect.innerHTML = "<option disabled selected>Оберіть урок</option>";
+
+        lessons.forEach(lesson => {
+            const option = document.createElement("option");
+            option.value = lesson.name;
+            option.textContent = lesson.name;
+            lessonSelect.appendChild(option);
+        });
+
+        topicInput.value = "";
+        goalInput.value = "";
+    }
+
+    lessonSelect.addEventListener("change", () => {
+        const course = courseSelect.value;
+        const lessonName = lessonSelect.value;
+        const lessons = lessonsData[course] || [];
+
+        const selectedLesson = lessons.find(lesson => lesson.name === lessonName);
+        if (selectedLesson) {
+            topicInput.value = selectedLesson.topic;
+            goalInput.value = selectedLesson.goal;
+        }
+    });
+
+    function copyToClipboard() {
+        const resultBox = document.getElementById("result-box");
+        navigator.clipboard.writeText(resultBox.innerText)
+            .then(() => alert("Скопійовано!"))
+            .catch(() => alert("Помилка копіювання"));
+    }
+</script>
+</body>
+</html>
