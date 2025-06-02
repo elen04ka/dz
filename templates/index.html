@@ -18,26 +18,21 @@
         box-sizing: border-box;
     }
 
-    /* Шапка */
     header {
         display: flex;
         align-items: center;
         padding: 1rem 2rem;
-        background: linear-gradient(90deg, #4CAF50 0%, #2E7D32 100%);
+        background: linear-gradient(90deg, #4d1b4e 0%, #89198b 100%);
         color: white;
         border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(46,125,50,0.3);
+        box-shadow: 0 4px 8px #89198b19;
         margin-bottom: 2rem;
     }
 
     header img {
         height: 50px;
         margin-right: 1rem;
-        border-radius: 8px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-        background: white;
         padding: 5px;
-        flex-shrink: 0;
     }
 
     header h1 {
@@ -48,7 +43,6 @@
         user-select: none;
     }
 
-    /* Підвал */
     footer {
         margin-top: auto;
         background-color: #f0f0f0;
@@ -62,7 +56,7 @@
     }
 
     footer a {
-        color: #4CAF50;
+        color: #89198b;
         text-decoration: none;
         font-weight: 600;
         transition: color 0.3s ease;
@@ -70,7 +64,7 @@
 
     footer a:hover,
     footer a:focus {
-        color: #2E7D32;
+        color: #4d1b4e;
         text-decoration: underline;
     }
 
@@ -86,13 +80,13 @@
     }
 
     textarea:focus, select:focus, input:focus {
-        border-color: #4CAF50;
+        border-color: #4d1b4e;
         outline: none;
-        box-shadow: 0 0 6px #81C784;
+        box-shadow: 0 0 6px #89198b;
     }
 
     button {
-        background-color: #4CAF50;
+        background-color: #89198b;
         color: white;
         border: none;
         padding: 0.7rem 1.5rem;
@@ -105,7 +99,7 @@
 
     button:hover,
     button:focus {
-        background-color: #388E3C;
+        background-color: #4d1b4e;
         outline: none;
     }
 
@@ -120,7 +114,6 @@
         font-family: 'Courier New', Courier, monospace;
     }
 
-    /* --- Адаптивність --- */
     @media (max-width: 600px) {
         body {
             margin: 1rem;
@@ -164,7 +157,7 @@
     <h1>Генератор домашок</h1>
 </header>
 
-<form method="POST">
+<form method="POST" onsubmit="return validateForm()">
     <label for="greeting">Привітання:</label>
     <select name="greeting" id="greeting">
         <option>Добрий ранок, шановні батьки!</option>
@@ -176,7 +169,7 @@
     <textarea name="absents" id="absents" rows="2" placeholder="Наприклад: Петренко Іван, Коваленко Марина..."></textarea>
 
     <label for="course">Курс:</label>
-    <select name="course" id="course" required onchange="updateLessons()">
+    <select name="course" id="course" onchange="updateLessons()">
         <option disabled selected>Оберіть курс</option>
         {% for course_name in lessons.keys() %}
             <option value="{{ course_name }}">{{ course_name }}</option>
@@ -184,7 +177,7 @@
     </select>
 
     <label for="lesson">Урок:</label>
-    <select name="lesson" id="lesson" required>
+    <select name="lesson" id="lesson">
         <option disabled selected>Спочатку оберіть курс</option>
     </select>
 
@@ -209,7 +202,6 @@
     <button onclick="copyToClipboard()">📋 Скопіювати</button>
 {% endif %}
 
-<!-- JSON lesson data for JS -->
 <div id="lesson-data" data-json='{{ lessons | tojson | safe }}'></div>
 
 <footer>
@@ -259,6 +251,33 @@
             .then(() => alert("Скопійовано!"))
             .catch(() => alert("Помилка копіювання"));
     }
+
+    function validateForm() {
+        const courseValue = courseSelect.value;
+        const lessonValue = lessonSelect.value;
+
+        if (!courseValue || courseValue === "Оберіть курс") {
+            alert("Будь ласка, оберіть курс.");
+            courseSelect.focus();
+            return false;
+        }
+
+        if (!lessonValue || lessonValue === "Оберіть урок" || lessonValue === "Спочатку оберіть курс") {
+            alert("Будь ласка, оберіть урок.");
+            lessonSelect.focus();
+            return false;
+        }
+
+        return true;
+    }
+
+    // Прокрутка до результату, якщо він є
+    window.addEventListener("DOMContentLoaded", () => {
+        const resultBox = document.getElementById("result-box");
+        if (resultBox) {
+            resultBox.scrollIntoView({ behavior: "smooth" });
+        }
+    });
 </script>
 </body>
 </html>
