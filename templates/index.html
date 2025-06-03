@@ -1,155 +1,138 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Генератор домашок</title>
-<style>
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        max-width: 800px;
-        margin: 2rem auto;
-        padding: 1rem;
-        background-color: #f9fafb;
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-        color: #333;
-        box-sizing: border-box;
-    }
-
-    header {
-        display: flex;
-        align-items: center;
-        padding: 1rem 2rem;
-        background: linear-gradient(90deg, #4d1b4e 0%, #89198b 100%);
-        color: white;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px #89198b19;
-        margin-bottom: 2rem;
-    }
-
-    header img {
-        height: 50px;
-        margin-right: 1rem;
-        padding: 5px;
-    }
-
-    header h1 {
-        font-weight: 700;
-        font-size: 1.8rem;
-        letter-spacing: 1.1px;
-        margin: 0;
-        user-select: none;
-    }
-
-    footer {
-        margin-top: auto;
-        background-color: #f0f0f0;
-        padding: 1rem 1.5rem;
-        text-align: center;
-        font-size: 0.85rem;
-        color: #666;
-        border-radius: 8px;
-        box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
-        user-select: none;
-    }
-
-    footer a {
-        color: #89198b;
-        text-decoration: none;
-        font-weight: 600;
-        transition: color 0.3s ease;
-    }
-
-    footer a:hover,
-    footer a:focus {
-        color: #4d1b4e;
-        text-decoration: underline;
-    }
-
-    textarea, select, input {
-        width: 100%;
-        padding: 0.5rem;
-        margin-bottom: 1rem;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        box-sizing: border-box;
-        font-size: 1rem;
-        transition: border-color 0.3s ease;
-    }
-
-    textarea:focus, select:focus, input:focus {
-        border-color: #4d1b4e;
-        outline: none;
-        box-shadow: 0 0 6px #89198b;
-    }
-
-    button {
-        background-color: #89198b;
-        color: white;
-        border: none;
-        padding: 0.7rem 1.5rem;
-        cursor: pointer;
-        border-radius: 5px;
-        font-weight: 600;
-        font-size: 1rem;
-        transition: background-color 0.3s ease;
-    }
-
-    button:hover,
-    button:focus {
-        background-color: #4d1b4e;
-        outline: none;
-    }
-
-    .message-box {
-        background-color: white;
-        padding: 1rem;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        white-space: pre-wrap;
-        margin-top: 1rem;
-        box-shadow: 0 1px 5px rgba(0,0,0,0.1);
-        font-family: 'Courier New', Courier, monospace;
-    }
-
-    @media (max-width: 600px) {
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Генератор домашок</title>
+    <style>
         body {
-            margin: 1rem;
-            padding: 0.5rem;
-        }
-
-        header {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: #f9fafb;
+            display: flex;
             flex-direction: column;
+            min-height: 100vh;
+            color: #333;
+            box-sizing: border-box;
+        }
+        header {
+            display: flex;
             align-items: center;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            text-align: center;
+            padding: 1rem 2rem;
+            background: linear-gradient(90deg, #4d1b4e 0%, #89198b 100%);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px #89198b19;
+            margin-bottom: 2rem;
         }
-
         header img {
-            margin: 0 0 0.5rem 0;
-            height: 40px;
+            height: 50px;
+            margin-right: 1rem;
+            padding: 5px;
         }
-
         header h1 {
-            font-size: 1.5rem;
-            letter-spacing: normal;
+            font-weight: 700;
+            font-size: 1.8rem;
+            letter-spacing: 1.1px;
+            margin: 0;
+            user-select: none;
         }
-
-        button {
-            width: 100%;
-            padding: 1rem;
-            font-size: 1.1rem;
-        }
-
         footer {
-            font-size: 0.75rem;
-            padding: 0.75rem 1rem;
+            margin-top: auto;
+            background-color: #f0f0f0;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #666;
+            border-radius: 8px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+            user-select: none;
         }
-    }
-</style>
+        footer a {
+            color: #89198b;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        footer a:hover,
+        footer a:focus {
+            color: #4d1b4e;
+            text-decoration: underline;
+        }
+        textarea, select, input {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        textarea:focus, select:focus, input:focus {
+            border-color: #4d1b4e;
+            outline: none;
+            box-shadow: 0 0 6px #89198b;
+        }
+        button {
+            background-color: #89198b;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        button:hover,
+        button:focus {
+            background-color: #4d1b4e;
+            outline: none;
+        }
+        .message-box {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            white-space: pre-wrap;
+            margin-top: 1rem;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+            font-family: 'Courier New', Courier, monospace;
+        }
+        @media (max-width: 600px) {
+            body {
+                margin: 1rem;
+                padding: 0.5rem;
+            }
+            header {
+                flex-direction: column;
+                align-items: center;
+                padding: 1rem;
+                margin-bottom: 1.5rem;
+                text-align: center;
+            }
+            header img {
+                margin: 0 0 0.5rem 0;
+                height: 40px;
+            }
+            header h1 {
+                font-size: 1.5rem;
+                letter-spacing: normal;
+            }
+            button {
+                width: 100%;
+                padding: 1rem;
+                font-size: 1.1rem;
+            }
+            footer {
+                font-size: 0.75rem;
+                padding: 0.75rem 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
 <header>
@@ -216,6 +199,8 @@
     const lessonSelect = document.getElementById('lesson');
     const topicInput = document.getElementById('topic');
     const goalInput = document.getElementById('goal');
+    const customInput = document.getElementById('custom_text');
+    const homeworkInput = document.getElementById('homework');
 
     function updateLessons() {
         const course = courseSelect.value;
@@ -231,6 +216,8 @@
 
         topicInput.value = "";
         goalInput.value = "";
+        customInput.value = "";
+        homeworkInput.value = "";
     }
 
     lessonSelect.addEventListener("change", () => {
@@ -240,8 +227,10 @@
 
         const selectedLesson = lessons.find(lesson => lesson.name === lessonName);
         if (selectedLesson) {
-            topicInput.value = selectedLesson.topic;
-            goalInput.value = selectedLesson.goal;
+            topicInput.value = selectedLesson.topic || "";
+            goalInput.value = selectedLesson.goal || "";
+            customInput.value = selectedLesson.custom_text || "";
+            homeworkInput.value = selectedLesson.homework || "";
         }
     });
 
@@ -253,25 +242,19 @@
     }
 
     function validateForm() {
-        const courseValue = courseSelect.value;
-        const lessonValue = lessonSelect.value;
-
-        if (!courseValue || courseValue === "Оберіть курс") {
+        if (!courseSelect.value || courseSelect.value === "Оберіть курс") {
             alert("Будь ласка, оберіть курс.");
             courseSelect.focus();
             return false;
         }
-
-        if (!lessonValue || lessonValue === "Оберіть урок" || lessonValue === "Спочатку оберіть курс") {
+        if (!lessonSelect.value || lessonSelect.value === "Оберіть урок") {
             alert("Будь ласка, оберіть урок.");
             lessonSelect.focus();
             return false;
         }
-
         return true;
     }
 
-    // Прокрутка до результату, якщо він є
     window.addEventListener("DOMContentLoaded", () => {
         const resultBox = document.getElementById("result-box");
         if (resultBox) {
